@@ -8,6 +8,7 @@ using TMPro;
 public class Move : MonoBehaviour, IPunObservable
 {
     [SerializeField] private float speed;
+    [SerializeField] private GameObject camera;
     [SerializeField] private float jumpSpeed;
     [SerializeField] private TextMeshPro title;
     [SerializeField] private Sprite spritePing0;
@@ -30,6 +31,7 @@ public class Move : MonoBehaviour, IPunObservable
    
     void Start()
     {
+
         mode = PlayerPrefs.GetInt("mode");
         animator = GetComponent<Animator>();
         photonView = GetComponent<PhotonView>();
@@ -41,6 +43,10 @@ public class Move : MonoBehaviour, IPunObservable
         }
         title.color = new Color(rgb[0], rgb[1], rgb[2]);
         title.text = PhotonNetwork.NickName;
+        if (!photonView.IsMine)
+        {
+            camera.SetActive(false);
+        }
     }
 
     void Update()
@@ -54,6 +60,10 @@ public class Move : MonoBehaviour, IPunObservable
         }
         animator.SetFloat("HorizontalMove", 0);
         if (Chat.isChating) return;
+        Movement();
+    }
+    private void Movement()
+    {
         horizontalMove = Input.GetAxisRaw("Horizontal") * speed;
         animator.SetFloat("HorizontalMove", Mathf.Abs(horizontalMove));
         if (Input.GetButtonDown("Jump"))
