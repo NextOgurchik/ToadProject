@@ -56,6 +56,12 @@ TextureImporter:
   - first:
       213: -6229711604178211498
     second: toad_tilemap_17
+  - first:
+      213: 5357821169884177078
+    second: toad_tilemap_18
+  - first:
+      213: -6419137013340860529
+    second: toad_tilemap_19
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -256,7 +262,7 @@ TextureImporter:
       name: toad_tilemap_4
       rect:
         serializedVersion: 2
-        x: 112
+        x: 106
         y: 992
         width: 20
         height: 27
@@ -277,7 +283,7 @@ TextureImporter:
       name: toad_tilemap_5
       rect:
         serializedVersion: 2
-        x: 139
+        x: 128
         y: 992
         width: 22
         height: 27
@@ -298,7 +304,7 @@ TextureImporter:
       name: toad_tilemap_6
       rect:
         serializedVersion: 2
-        x: 169
+        x: 152
         y: 992
         width: 22
         height: 28
@@ -319,7 +325,7 @@ TextureImporter:
       name: toad_tilemap_7
       rect:
         serializedVersion: 2
-        x: 200
+        x: 176
         y: 992
         width: 22
         height: 28
@@ -340,7 +346,7 @@ TextureImporter:
       name: toad_tilemap_8
       rect:
         serializedVersion: 2
-        x: 232
+        x: 201
         y: 992
         width: 21
         height: 28
@@ -361,7 +367,7 @@ TextureImporter:
       name: toad_tilemap_9
       rect:
         serializedVersion: 2
-        x: 263
+        x: 226
         y: 992
         width: 18
         height: 28
@@ -542,6 +548,48 @@ TextureImporter:
       bones: []
       spriteID: 65d24db6d4e9b89a0800000000000000
       internalID: -6229711604178211498
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: toad_tilemap_18
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 873
+        width: 18
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b2a30197fdca5a40800000000000000
+      internalID: 5357821169884177078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: toad_tilemap_19
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 840
+        width: 19
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8f814b75e4aae6a0800000000000000
+      internalID: -6419137013340860529
       vertices: []
       indices: 
       edges: []

@@ -11,13 +11,14 @@ GameObject:
   - component: {fileID: 3374792076955444781}
   - component: {fileID: 8769735360245264832}
   - component: {fileID: 2827602125881735466}
-  - component: {fileID: 2083969017088455842}
   - component: {fileID: 5034540867376762987}
   - component: {fileID: 3130947878717795275}
   - component: {fileID: 5633935553506583676}
   - component: {fileID: 6037700513787433150}
   - component: {fileID: 6736573256930126132}
   - component: {fileID: 2943201976296432206}
+  - component: {fileID: 2871559640746683205}
+  - component: {fileID: 5744741369887620426}
   m_Layer: 0
   m_Name: Toad
   m_TagString: MainCamera
@@ -111,34 +112,13 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 2083969017088455842}
   - {fileID: 5034540867376762987}
   - {fileID: 3130947878717795275}
   - {fileID: 5633935553506583676}
+  - {fileID: 2871559640746683205}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &2083969017088455842
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3374792076955444787}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowLayerWeightsInspector: 1
-  ShowParameterInspector: 1
-  m_SynchronizeParameters:
-  - Type: 1
-    SynchronizeType: 0
-    Name: HorizontalMove
-  m_SynchronizeLayers:
-  - SynchronizeType: 0
-    LayerIndex: 0
 --- !u!114 &5034540867376762987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,8 +164,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  camera: {fileID: 4100408105056774830}
-  jumpSpeed: 5
+  cam: {fileID: 0}
+  jumpSpeed: 50
   title: {fileID: 6193583304817418283}
   spritePing0: {fileID: -4032666370627890978, guid: 16457bf3175e82b4a8ba1855d37d6e54, type: 3}
   animPing0: {fileID: 9100000, guid: 63b35f737cb12884db4c6142ca6fbece, type: 2}
@@ -222,7 +202,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 5
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -247,6 +227,55 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.17, y: 0.27}
   m_Direction: 0
+--- !u!114 &2871559640746683205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3374792076955444787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 9
+    SynchronizeType: 0
+    Name: isWall
+  - Type: 9
+    SynchronizeType: 0
+    Name: isJump
+  - Type: 9
+    SynchronizeType: 0
+    Name: isMove
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
+--- !u!68 &5744741369887620426
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3374792076955444787}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -0.085, y: 0}
+  - {x: 0.085, y: 0}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!1 &4100408105056774830
 GameObject:
   m_ObjectHideFlags: 0
@@ -306,7 +335,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 20
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2

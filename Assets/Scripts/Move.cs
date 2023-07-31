@@ -8,7 +8,7 @@ using TMPro;
 public class Move : MonoBehaviour, IPunObservable
 {
     [SerializeField] private float speed;
-    [SerializeField] private GameObject camera;
+    [SerializeField] private GameObject cam;
     [SerializeField] private float jumpSpeed;
     [SerializeField] private TextMeshPro title;
     [SerializeField] private Sprite spritePing0;
@@ -17,6 +17,10 @@ public class Move : MonoBehaviour, IPunObservable
     [SerializeField] private RuntimeAnimatorController animPing;
 
     private int mode;
+    private int jumpCount;
+    private float dir;
+    private bool isGrounded;
+    private bool isWallDetected;
     private Rigidbody2D rb;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
@@ -31,7 +35,8 @@ public class Move : MonoBehaviour, IPunObservable
    
     void Start()
     {
-
+        isGrounded = false;
+        isWallDetected = true;
         mode = PlayerPrefs.GetInt("mode");
         animator = GetComponent<Animator>();
         photonView = GetComponent<PhotonView>();
@@ -45,7 +50,7 @@ public class Move : MonoBehaviour, IPunObservable
         title.text = PhotonNetwork.NickName;
         if (!photonView.IsMine)
         {
-            camera.SetActive(false);
+            cam.SetActive(false);
         }
     }
 
@@ -58,18 +63,43 @@ public class Move : MonoBehaviour, IPunObservable
         {
             Application.Quit();
         }
-        animator.SetFloat("HorizontalMove", 0);
+
+        if (transform.position.y < -15)
+        {
+            transform.position = Vector3.zero;
+            rb.velocity = Vector3.zero;
+            jumpCount = 0;
+        }
         if (Chat.isChating) return;
         Movement();
     }
     private void Movement()
     {
-        horizontalMove = Input.GetAxisRaw("Horizontal") * speed;
-        animator.SetFloat("HorizontalMove", Mathf.Abs(horizontalMove));
-        if (Input.GetButtonDown("Jump"))
+        dir = spriteRenderer.flipX ? 1 : -1;
+        //if (Input.GetButtonDown("Jump") && jumpCount<2)
+        if (Input.GetMouseButtonDown(0) && jumpCount<2)
         {
-            rb.AddForce(Vector3.up * jumpSpeed, ForceMode2D.Impulse);
+            isWallDetected = false;
+            jumpCount++;
+            if (jumpCount == 1)
+            {
+                animator.SetTrigger("isFall");
+            }
+            if (jumpCount == 2)
+            {
+                animator.SetTrigger("isJump");
+                rb.velocity=Vector3.zero;
+                spriteRenderer.flipX = !spriteRenderer.flipX;
+                dir = spriteRenderer.flipX ? 1 : -1;
+                isGrounded = false;
+            }
+            rb.gravityScale = 1;
+            rb.AddForce(new Vector3(dir,1f) * jumpSpeed, ForceMode2D.Impulse);
         }
+
+        if (isWallDetected) return;
+        horizontalMove = speed * dir;
+
         if (horizontalMove > 0)
         {
             spriteRenderer.flipX = true;
@@ -98,6 +128,47 @@ public class Move : MonoBehaviour, IPunObservable
         {
             spriteRenderer.sprite = spritePing;
             animator.runtimeAnimatorController = animPing;
+        }
+    }
+    
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == 3)
+        {
+            animator.SetTrigger("isMove");
+            rb.velocity = Vector3.zero;
+            jumpCount = 0;
+            isGrounded = true;
+            isWallDetected = false;
+            rb.gravityScale = 1;
+        }
+    }
+    
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == 6)
+        {
+            animator.SetTrigger("isWall");
+            rb.velocity = Vector3.zero;
+            jumpCount = 0;
+            isWallDetected = true;
+            rb.gravityScale = 0.01f;
+            spriteRenderer.flipX = !spriteRenderer.flipX;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == 6)
+        {
+            rb.gravityScale = 1f;
+            isWallDetected = false;
+        }
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == 3)
+        {
+
         }
     }
 }
