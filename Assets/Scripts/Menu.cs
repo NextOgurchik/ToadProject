@@ -17,6 +17,7 @@ public class Menu : MonoBehaviour
     public void PlayButton()
     {
         PhotonNetwork.NickName = inputField.text;
+        PlayerPrefs.SetString("name", inputField.text);
         SceneManager.LoadScene(1);
     }
     public void Mode()

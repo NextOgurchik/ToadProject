@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  cam: {fileID: 0}
+  camera: {fileID: 4100408105056774830}
   jumpSpeed: 50
   title: {fileID: 6193583304817418283}
   spritePing0: {fileID: -4032666370627890978, guid: 16457bf3175e82b4a8ba1855d37d6e54, type: 3}

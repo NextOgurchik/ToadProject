@@ -8,7 +8,7 @@ using TMPro;
 public class Move : MonoBehaviour, IPunObservable
 {
     [SerializeField] private float speed;
-    [SerializeField] private GameObject cam;
+    [SerializeField] private GameObject camera;
     [SerializeField] private float jumpSpeed;
     [SerializeField] private TextMeshPro title;
     [SerializeField] private Sprite spritePing0;
@@ -50,7 +50,7 @@ public class Move : MonoBehaviour, IPunObservable
         title.text = PhotonNetwork.NickName;
         if (!photonView.IsMine)
         {
-            cam.SetActive(false);
+            camera.SetActive(false);
         }
     }
 
