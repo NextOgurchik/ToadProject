@@ -66,12 +66,18 @@ public class Move : MonoBehaviour, IPunObservable
 
         if (transform.position.y < -15)
         {
-            transform.position = Vector3.zero;
-            rb.velocity = Vector3.zero;
-            jumpCount = 0;
+            Respawn();
+            Finish.timer = 0;
         }
         if (Chat.isChating) return;
         Movement();
+    }
+    private void Respawn()
+    {
+        transform.position = Vector3.zero;
+        rb.velocity = Vector3.zero;
+        jumpCount = 0;
+        animator.SetTrigger("isFall");
     }
     private void Movement()
     {
@@ -79,22 +85,7 @@ public class Move : MonoBehaviour, IPunObservable
         //if (Input.GetButtonDown("Jump") && jumpCount<2)
         if (Input.GetMouseButtonDown(0) && jumpCount<2)
         {
-            isWallDetected = false;
-            jumpCount++;
-            if (jumpCount == 1)
-            {
-                animator.SetTrigger("isFall");
-            }
-            if (jumpCount == 2)
-            {
-                animator.SetTrigger("isJump");
-                rb.velocity=Vector3.zero;
-                spriteRenderer.flipX = !spriteRenderer.flipX;
-                dir = spriteRenderer.flipX ? 1 : -1;
-                isGrounded = false;
-            }
-            rb.gravityScale = 1;
-            rb.AddForce(new Vector3(dir,1f) * jumpSpeed, ForceMode2D.Impulse);
+            Jump();
         }
 
         if (isWallDetected) return;
@@ -110,6 +101,25 @@ public class Move : MonoBehaviour, IPunObservable
             spriteRenderer.flipX = false;
             transform.position += new Vector3(-speed, 0, 0) * Time.deltaTime;
         }
+    }
+    void Jump()
+    {
+        isWallDetected = false;
+        jumpCount++;
+        if (jumpCount == 1)
+        {
+            animator.SetTrigger("isFall");
+        }
+        if (jumpCount == 2)
+        {
+            animator.SetTrigger("isJump");
+            rb.velocity = Vector3.zero;
+            spriteRenderer.flipX = !spriteRenderer.flipX;
+            dir = spriteRenderer.flipX ? 1 : -1;
+            isGrounded = false;
+        }
+        rb.gravityScale = 1;
+        rb.AddForce(new Vector3(dir, 1f) * jumpSpeed, ForceMode2D.Impulse);
     }
     [PunRPC]
     private void SendData(bool flipX, string titleText, float[] rgb, int mode)
@@ -142,8 +152,19 @@ public class Move : MonoBehaviour, IPunObservable
             isWallDetected = false;
             rb.gravityScale = 1;
         }
+        if (collision.gameObject.tag == "Finish")
+        {
+            Respawn();
+        }
     }
-    
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == 3)
+        {
+
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer == 6)
@@ -154,6 +175,12 @@ public class Move : MonoBehaviour, IPunObservable
             isWallDetected = true;
             rb.gravityScale = 0.01f;
             spriteRenderer.flipX = !spriteRenderer.flipX;
+            if (collision.gameObject.tag == "AutoJump")
+            {
+                dir = spriteRenderer.flipX ? 1 : -1;
+                collision.gameObject.GetComponent<Animator>().SetTrigger("isWork");
+                Jump();
+            }
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -164,11 +191,5 @@ public class Move : MonoBehaviour, IPunObservable
             isWallDetected = false;
         }
     }
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.layer == 3)
-        {
 
-        }
-    }
 }
