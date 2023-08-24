@@ -18,7 +18,13 @@ public class Menu : MonoBehaviour
     {
         PhotonNetwork.NickName = inputField.text;
         PlayerPrefs.SetString("name", inputField.text);
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("Game");
+    }
+    public void MmButton()
+    {
+        PhotonNetwork.NickName = inputField.text;
+        PlayerPrefs.SetString("name", inputField.text);
+        SceneManager.LoadScene("Matchmacking");
     }
     public void Mode()
     {
